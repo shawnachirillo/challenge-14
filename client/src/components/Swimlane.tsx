@@ -3,7 +3,7 @@ import { TicketData } from '../interfaces/TicketData';
 import { ApiMessage } from '../interfaces/ApiMessage';
 
 interface SwimlaneProps {
-  key:number;
+  key:any;
   title: string;
   tickets: TicketData[];
   deleteTicket: (ticketId: number) => Promise<ApiMessage>
