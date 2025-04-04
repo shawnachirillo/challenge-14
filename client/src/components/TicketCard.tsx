@@ -5,11 +5,12 @@ import { ApiMessage } from '../interfaces/ApiMessage';
 import { MouseEventHandler } from 'react';
 
 interface TicketCardProps {
+  key:number;
   ticket: TicketData;
   deleteTicket: (ticketId: number) => Promise<ApiMessage>
 }
 
-const TicketCard = ({ ticket, deleteTicket }: TicketCardProps) => {
+const TicketCard = ({ key,ticket, deleteTicket }: TicketCardProps) => {
 
   const handleDelete: MouseEventHandler<HTMLButtonElement> = async (event) => {
     const ticketId = Number(event.currentTarget.value);
