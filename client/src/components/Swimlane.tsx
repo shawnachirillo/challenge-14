@@ -3,12 +3,13 @@ import { TicketData } from '../interfaces/TicketData';
 import { ApiMessage } from '../interfaces/ApiMessage';
 
 interface SwimlaneProps {
+  key:number;
   title: string;
   tickets: TicketData[];
   deleteTicket: (ticketId: number) => Promise<ApiMessage>
 }
 
-const Swimlane = ({ title, tickets, deleteTicket }: SwimlaneProps) => {
+const Swimlane = ({ key,title, tickets, deleteTicket }: SwimlaneProps) => {
   const getStatusClass = (status: string) => {
     switch (status) {
       case 'Todo':
