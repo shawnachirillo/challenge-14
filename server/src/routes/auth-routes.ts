@@ -4,12 +4,10 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 export const login = async (req: Request, res: Response) => {
-  // TODO: If the user exists and the password is correct, return a JWT token
   const { username, password } = req.body;
-   console.log('username', username,password);
-  const user = await User.findOne({
-    where: { username },
-  });
+  console.log('username', username, password);
+
+  const user = await User.findOne({ where: { username } });
 
   if (!user) {
     return res.status(401).json({ message: 'Authentication failed' });
@@ -20,16 +18,17 @@ export const login = async (req: Request, res: Response) => {
     return res.status(401).json({ message: 'Authentication failed' });
   }
 
-  const secretKey = process.env.JWT_SECRET_KEY || '';
+  const secretKey = process.env.JWT_SECRET;
+  if (!secretKey) {
+    throw new Error('JWT_SECRET is not defined in the environment variables');
+  }
 
   const token = jwt.sign({ username }, secretKey, { expiresIn: '1h' });
   console.log('token', token);
+
   return res.json({ token });
 };
 
 const router = Router();
-
-// POST /login - Login a user
 router.post('/login', login);
-
 export default router;
