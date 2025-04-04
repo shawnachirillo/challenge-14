@@ -16,7 +16,9 @@ const login = async (userInfo: UserLogin) => {
     if (!response.ok) {
       throw new Error('User information not retrieved, check network tab!');
     }
-
+if (data.token){
+  localStorage.setItem('token', data.token);
+}
     return data;
   } catch (err) {
     console.log('Error from user login: ', err);
