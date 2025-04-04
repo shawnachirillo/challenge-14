@@ -1,19 +1,22 @@
 import jwt from 'jsonwebtoken';
 export const authenticateToken = (req, res, next) => {
-    // TODO: verify the token exists and add the user data to the request object
     const authHeader = req.headers.authorization;
-    if (authHeader) {
-        const token = authHeader.split(' ')[1];
-        const secretKey = process.env.JWT_SECRET_KEY || '';
-        jwt.verify(token, secretKey, (err, user) => {
-            if (err) {
-                return res.sendStatus(403); // Forbidden
-            }
-            req.user = user;
-            return next();
-        });
-    }
-    else {
+    if (!authHeader) {
         res.sendStatus(401); // Unauthorized
+        return;
     }
+    const token = authHeader.split(' ')[1];
+    const secretKey = process.env.JWT_SECRET;
+    if (!secretKey) {
+        res.sendStatus(500); // Internal Server Error if secret key is missing
+        return;
+    }
+    jwt.verify(token, secretKey, (err, user) => {
+        if (err) {
+            res.sendStatus(403); // Forbidden
+            return;
+        }
+        req.user = user;
+        next();
+    });
 };

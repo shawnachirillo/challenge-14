@@ -1,7 +1,19 @@
-declare namespace Express {
+import { JwtPayload } from 'jsonwebtoken';
+
+declare global {
+  namespace Express {
     interface Request {
-      user?: {
-        username: string;
-      };
+      user?: JwtPayload & { username: string }; 
     }
   }
+}
+
+// declare namespace Express {
+//     interface Request {
+//       user?: {
+//         username: string;
+//       };
+//     }
+//   }
+
+export{};
